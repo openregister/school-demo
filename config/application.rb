@@ -23,3 +23,9 @@ module SchoolDemo
     # -- all .rb files in that directory are automatically loaded.
   end
 end
+
+Rails.application.configure do
+
+  config.middleware.use "ProxyToOther"
+
+end
