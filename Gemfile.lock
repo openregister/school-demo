@@ -84,6 +84,8 @@ GEM
     pkg-config (1.1.7)
     puma (3.4.0)
     rack (2.0.1)
+    rack-proxy (0.6.0)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.0)
@@ -110,7 +112,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (11.2.2)
-    rb-fsevent (0.9.7)
+    rb-fsevent (0.9.4)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
     sass (3.4.22)
@@ -157,7 +159,9 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.0.5)
   puma (~> 3.0)
+  rack-proxy
   rails (~> 5.0.0)
+  rb-fsevent (<= 0.9.4)
   sass-rails (~> 5.0)
   spring
   spring-watcher-listen (~> 2.0.0)
