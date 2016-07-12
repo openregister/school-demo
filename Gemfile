@@ -22,12 +22,8 @@ group :development do
   gem 'listen', '~> 3.0.5'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'rb-fsevent', '<= 0.9.4', require: RUBY_PLATFORM[/darwin/i].to_s.size > 0
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-require 'rbconfig'
-if RbConfig::CONFIG['target_os'] =~ /darwin(1[0-3])/i
-  gem 'rb-fsevent', '<= 0.9.4'
-end
