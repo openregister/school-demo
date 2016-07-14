@@ -84,7 +84,7 @@ class ModifySchoolHtml
         field_value = field_value.first if field_value.is_a?(Array)
         values = field_value.class._register(:discovery).fields.each_with_object({}) {|f, h| h[f]= field_value.send(f.underscore)}.to_json
         [
-        "<dt style='margin-top: 0.7em; margin-bottom: 0.4em'><a href='#{item._uri}' rel='external'>",
+        "<dt style='margin-top: 0.7em; margin-bottom: 0.4em'><a href='#{field_value._uri}' rel='external'>",
         "#{field.register}:#{field_label}",
         '</a></dt>',
         '<dd><span style="background: #efefef; display: block; font-size: 0.75em; padding: 0.75em; color: #222;">',
