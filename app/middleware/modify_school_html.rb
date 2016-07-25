@@ -40,17 +40,56 @@ class ModifySchoolHtml
     end
   end
 
+  def fields_by_registry item
+    fields = item._register_fields.select{|f| f.register.present?}
+    by_register = fields.group_by(&:register)
+    registers = by_register.keys.each_with_object({}) do |register_name, h|
+      h[register_name] = OpenRegister.register register_name, item._base_url_or_phase
+    end
+    by_registry = fields.group_by {|f| registers[f.register].registry }
+  end
+
+  def record_fields item
+    item._register._fields.
+      select{ |field| field.register.present? && field.register != item.class.register }.
+      select{ |field| item.send(field.field.underscore).present? }.
+      map do |field|
+      puts ''
+      puts '===='
+      puts field.field
+      puts item.send(field.field.underscore)
+      puts '---'
+      puts ''
+      item.send("_#{field.field.underscore}")
+    end
+  end
+
+  def record_fields_from_list items
+    items.map do |item|
+      if item.is_a?(Array)
+        record_fields_from_list(item)
+      else
+        records = record_fields(item)
+        records.push(*record_fields_from_list(records))
+      end
+    end.flatten
+  end
+
   def add_school_register_content! doc
     if school = school_for(doc)
       puts school.to_yaml
-      register = school.class._register(:discovery)
-      fields = register._fields.select{|f| f.register.present?}
-      by_register = fields.group_by(&:register)
-      by_register.delete('')
-      registers = by_register.keys.each_with_object({}) { |r, h| h[r] = OpenRegister.register r, :discovery }
-      by_registry = fields.group_by {|f| registers[f.register].registry }
-      register_data_html = by_registry.keys.map{|r| registry_html r, by_registry[r], school}
-      # byebug
+
+      records = record_fields_from_list [school]
+
+      by_registry = records.push(school).group_by do |record|
+        record._register.registry
+      end
+
+      register_data_html = by_registry.keys.sort.map do |registry|
+        records = by_registry[registry]
+        registry_html(registry, records) if records.size > 0
+      end
+
       if div = doc.at('#FeedbackFormContainer')
         div.inner_html =
           [ '<h2 class="heading-small">This page uses data from a number of different registers</h2>',
@@ -60,42 +99,28 @@ class ModifySchoolHtml
     end
   end
 
-  def registry_html registry, fields, item
+  def registry_html registry, records
     [
       '<dl>',
       "<h3 class='heading-medium'>#{registry.titleize}</h3>",
-      item_html(fields, item),
+      item_html(records),
       '</dl>'
     ]
   end
 
-  require 'json'
-  def item_html fields, item
-    fields.map do |field|
-      begin
-      puts field.field
-      field_label = item.send(field.field.underscore)
-      puts field_label.to_yaml
-      if field_label.blank?
-        []
-      else
-        field_label = field_label.first if field_label.is_a?(Array)
-        field_value = item.send("_#{field.field.underscore}")
-        field_value = field_value.first if field_value.is_a?(Array)
-        values = field_value.class._register(:discovery).fields.each_with_object({}) {|f, h| h[f]= field_value.send(f.underscore)}.to_json
-        [
-        "<dt style='margin-top: 0.7em; margin-bottom: 0.4em'><a href='#{field_value._uri}' rel='external'>",
-        "#{field.register}:#{field_label}",
-        '</a></dt>',
-        '<dd><span style="background: #efefef; display: block; font-size: 0.75em; padding: 0.75em; color: #222;">',
-        values.gsub('"',"'").gsub("':'", "': '").gsub("','", "', '"),
-        '</span></dd>'
-        ]
-      end
-      rescue Exception => e
-        puts e.to_s
-      []
-    end
+  def item_html records
+    records.map do |record|
+      curie = "#{record.class.register}:#{record.send(record.class.register.underscore)}"
+      values = record._register.fields.each_with_object({}) {|f, h| h[f]= record.send(f.underscore)}.to_json
+
+      [
+      "<dt style='margin-top: 0.7em; margin-bottom: 0.4em'><a href='#{record._uri}' rel='external'>",
+      curie,
+      '</a></dt>',
+      '<dd><span style="background: #efefef; display: block; font-size: 0.75em; padding: 0.75em; color: #222;">',
+      values.gsub('"',"'").gsub("':'", "': '").gsub("','", "', '"),
+      '</span></dd>'
+      ]
     end
   end
 end
