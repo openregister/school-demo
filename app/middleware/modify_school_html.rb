@@ -79,9 +79,9 @@ class ModifySchoolHtml
     if school = school_for(doc)
       puts school.to_yaml
 
-      records = record_fields_from_list [school]
+      records = [school].push(*record_fields_from_list([school]))
 
-      by_registry = records.push(school).group_by do |record|
+      by_registry = records.group_by do |record|
         record._register.registry
       end
 
@@ -109,13 +109,12 @@ class ModifySchoolHtml
   end
 
   def item_html records
-    records.map do |record|
-      curie = "#{record.class.register}:#{record.send(record.class.register.underscore)}"
+    records.uniq {|r| r._curie}.map do |record|
       values = record._register.fields.each_with_object({}) {|f, h| h[f]= record.send(f.underscore)}.to_json
 
       [
       "<dt style='margin-top: 0.7em; margin-bottom: 0.4em'><a href='#{record._uri}' rel='external'>",
-      curie,
+      record._curie,
       '</a></dt>',
       '<dd><span style="background: #efefef; display: block; font-size: 0.75em; padding: 0.75em; color: #222;">',
       values.gsub('"',"'").gsub("':'", "': '").gsub("','", "', '"),
