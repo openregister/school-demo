@@ -1,0 +1,28 @@
+- content_for :page_title do
+  = "#{@page_title} - Registers Design Authority"
+
+- content_for :head do
+  = raw stylesheet_link_tag("application", media: "all")
+  = raw %Q|    <!--[if IE 6]> #{stylesheet_link_tag "govuk_elements_extensions_ie6", media: "all"} <![endif]-->|
+  = raw %Q|    <!--[if IE 7]> #{stylesheet_link_tag "govuk_elements_extensions_ie7", media: "all"} <![endif]-->|
+  = raw %Q|    <!--[if IE 8]> #{stylesheet_link_tag "govuk_elements_extensions_ie8", media: "all"} <![endif]-->|
+  = raw %Q|    <!--[if gte IE 7]><!--> #{javascript_include_tag "application"} <!--<![endif]-->|
+  = csrf_meta_tags
+
+- content_for :cookie_message, ""
+
+- content_for :header_class, 'with-proposition'
+- content_for :proposition_header do
+  .header-proposition
+    .content
+      nav#proposition-menu
+        a href='/' id='proposition-name'
+          | This is a prototype
+        p#proposition-link
+          a href='url-to-page-1'
+
+- content_for :content do
+  main id='content' role='main'
+    = yield
+
+= render template: "layouts/govuk_template"

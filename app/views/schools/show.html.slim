@@ -1,0 +1,47 @@
+h1.heading-xlarge= @school.name
+
+.grid-row
+  .column-full
+    dl.metadata-school-detail
+      dt Address
+      dd= display_address(@school._address).sub(@school.name.titlecase, '')
+
+      dt Local authority
+      dd= @school.local_authority
+
+      dt Headteacher / Principal
+      dd= @school.headteacher
+
+      dt Age range
+      dd= age_range(@school)
+
+      dt Phase of education
+      dd= @school._school_phase.try(:name) if @school.school_phase.present?
+
+      dt School type
+      dd= @school._school_type.try(:name)
+
+      dt Gender of entry
+      dd= @school._school_gender.try(:name)
+
+      dt Denomination
+      dd= denominations(@school)
+
+      dt Unique reference
+      dd= @school.school
+
+      dt Website
+      dd
+        a href="#{@school.website}" rel="external"
+          = @school.website
+
+
+.grid-row
+  .column-full
+    h2.heading-small This page uses data from a number of different registers
+
+    details
+      summary.summary Register data
+      div aria-expanded="false"
+        - @by_registry.keys.sort.each do |registry|
+          == render partial: 'registry_data', locals: { registry: registry, records: @by_registry[registry] }
