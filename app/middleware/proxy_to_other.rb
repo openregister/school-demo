@@ -67,7 +67,7 @@ class ProxyToOther < Rack::Proxy
       [status, headers, body]
     elsif path[/^\/schools\/\d+$/]
       [status, headers, body]
-    else
+    elsif path == '/' || path[/^\/\?.+/]
       html = begin
         sio = StringIO.new( body.to_s )
         gz = Zlib::GzipReader.new( sio )
@@ -96,6 +96,8 @@ class ProxyToOther < Rack::Proxy
       headers["content-length"] = [html.length.to_s]
       headers.delete("content-encoding")
       [status, headers, [html] ]
+    else
+      [status, headers, body]
     end
   end
 end
