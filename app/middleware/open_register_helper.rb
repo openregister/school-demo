@@ -1,3 +1,5 @@
+require 'openregister'
+
 module OpenRegister
   class << self
     alias_method :original_record, :record
