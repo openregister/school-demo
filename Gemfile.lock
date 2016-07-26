@@ -58,6 +58,7 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.2)
+    dalli (2.7.2)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     domain_name (0.5.20160615)
@@ -236,6 +237,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   coffee-rails (~> 4.2)
+  dalli
   govuk_elements_rails
   govuk_frontend_toolkit
   govuk_template
