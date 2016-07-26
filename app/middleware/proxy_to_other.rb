@@ -64,17 +64,38 @@ class ProxyToOther < Rack::Proxy
   def rewrite_response(triplet_path)
     status, headers, body, path = triplet_path
     if path[/^\/school\/\d+$/]
-      sio = StringIO.new( body.to_s )
-      gz = Zlib::GzipReader.new( sio )
-      html = gz.read()
-      modifier = ModifySchoolHtml.new(html)
-      modified = modifier.modify
-      # byebug
-      headers["content-length"] = [modified.length.to_s]
-      headers.delete("content-encoding")
-      [status, headers, [modified] ]
-    else
       [status, headers, body]
+    elsif path[/^\/schools\/\d+$/]
+      [status, headers, body]
+    else
+      html = begin
+        sio = StringIO.new( body.to_s )
+        gz = Zlib::GzipReader.new( sio )
+        gz.read()
+      rescue Exception => e
+        body.to_s
+      end
+
+      html.sub!('<strong class="phase-tag">BETA</strong>','<strong class="phase-tag" style="background:#912b88;">DISCOVERY</strong>')
+      begin
+        doc = Nokogiri::HTML html
+        if logo = doc.at('.header-logo')
+          logo.remove
+        end
+        if menu = doc.at('#proposition-menu')
+          menu.inner_html = '<span>This is a prototype</span>'
+        end
+        if doc.at('.phase-banner-beta') && span = doc.at('.phase-banner-beta').at('span')
+          span.remove
+        end
+        html = doc.to_s
+        html.sub!('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">','')
+        html.strip!
+      rescue Exception => e
+      end
+      headers["content-length"] = [html.length.to_s]
+      headers.delete("content-encoding")
+      [status, headers, [html] ]
     end
   end
 end
