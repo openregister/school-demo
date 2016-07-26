@@ -8,6 +8,11 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 
+gem 'slim'
+gem 'govuk_frontend_toolkit'
+gem 'govuk_template'
+gem 'govuk_elements_rails'
+
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.5'
 
