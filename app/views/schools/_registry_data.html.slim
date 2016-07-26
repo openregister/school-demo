@@ -1,0 +1,4 @@
+dl
+  h3.heading-medium= registry.titleize
+  - records.uniq {|r| r._curie}.each do |record|
+    == render partial: 'record_data', locals: {record: record}

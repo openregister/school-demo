@@ -49,37 +49,11 @@ class ModifySchoolHtml
     by_registry = fields.group_by {|f| registers[f.register].registry }
   end
 
-  def record_fields item
-    item._register._fields.
-      select{ |field| field.register.present? && field.register != item.class.register }.
-      select{ |field| item.send(field.field.underscore).present? }.
-      map do |field|
-      puts ''
-      puts '===='
-      puts field.field
-      puts item.send(field.field.underscore)
-      puts '---'
-      puts ''
-      item.send("_#{field.field.underscore}")
-    end
-  end
-
-  def record_fields_from_list items
-    items.map do |item|
-      if item.is_a?(Array)
-        record_fields_from_list(item)
-      else
-        records = record_fields(item)
-        records.push(*record_fields_from_list(records))
-      end
-    end.flatten
-  end
-
   def add_school_register_content! doc
     if school = school_for(doc)
       puts school.to_yaml
 
-      records = [school].push(*record_fields_from_list([school]))
+      records = [school].push(*OpenRegisterHelper.record_fields_from_list([school]))
 
       by_registry = records.group_by do |record|
         record._register.registry

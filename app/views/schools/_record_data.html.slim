@@ -1,0 +1,7 @@
+dt style='margin-top: 0.7em; margin-bottom: 0.4em'
+  a href='#{record._uri}' rel='external'
+    = record._curie
+dd
+  span style="background: #efefef; display: block; font-size: 0.75em; padding: 0.75em; color: #222;"
+    - values = record._register.fields.each_with_object({}) {|f, h| h[f]= record.send(f.underscore)}.to_json
+    = values.gsub('"',"'").gsub("':'", "': '").gsub("','", "', '")

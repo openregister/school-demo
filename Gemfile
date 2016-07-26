@@ -8,6 +8,11 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 
+gem 'slim'
+gem 'govuk_frontend_toolkit'
+gem 'govuk_template'
+gem 'govuk_elements_rails'
+
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.5'
 
@@ -15,6 +20,8 @@ gem 'rack-proxy'
 
 gem 'openregister-ruby', git: 'https://github.com/robmckinnon/openregister-ruby.git'
 gem 'nokogiri'
+
+gem 'dalli'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
