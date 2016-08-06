@@ -1,0 +1,101 @@
+class Item
+
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  include Geocoder::Model::Mongoid
+
+  field :r, as: :register, type: String
+  field :k, as: :record, type: String
+  field :n, as: :name, type: String
+  field :p, as: :place, type: String
+  field :g, as: :point, type: Array
+  field :e, as: :entry_number, type: Integer
+  field :s, as: :start_date, type: Date
+  field :f, as: :end_date, type: Date
+
+  validates_uniqueness_of :record, scope: :register
+
+  attr_readonly :register, :record
+
+  geocoded_by :point
+
+  scope :not_ended, -> { where( :end_date => nil ) }
+
+  scope :with_coordinates, -> { where( :point.ne => nil ) }
+
+  scope :not_street, -> { where(:register.ne => 'street') }
+
+  scope :matching, ->(pattern) { where(name: pattern).not_street.not_ended.limit(5) }
+
+  index({ register: 1 }, unique: false)
+  index({ register: 1, record: 1 }, unique: true)
+  index({ name: 1 }, unique: false)
+
+  class << self
+    def search_pattern query
+      pattern = query.to_s.strip.gsub(/\s+/,' ')
+      # postcode = UKPostcode.parse(pattern)
+      # if postcode.valid?
+        # postcode.outcode
+      # else
+        pattern
+      # end
+    end
+
+    def matches_for query
+      pattern = search_pattern(query)
+      matches = matching(pattern) +
+        matching(/^#{pattern}/i)
+        # matching(/^(.+\s)+#{pattern}/i)
+      matches.uniq
+    end
+
+    def search query
+      query.blank? ? [] : matches_for(query)
+    end
+
+    def record register, record
+      begin
+        find_by(register: register, record: record)
+      rescue Mongoid::Errors::DocumentNotFound
+        nil
+      end
+    end
+
+    def nearest_schools lat, lon, range
+      near([lat, lon], range).where(register: 'school')
+    end
+  end
+
+  def curie
+    [register, record].join(':')
+  end
+
+  def display_place
+    case place
+    when 'ENG'
+      'England'
+    when 'WLS'
+      'Wales'
+    when 'SCT'
+      'Scotland'
+    when 'NIR'
+      'Northern Ireland'
+    else
+      place
+    end
+  end
+
+  def display_name
+    [name.titleize, display_place].compact.join(', ')
+  end
+
+  def as_json(opts=nil)
+    {
+      curie: curie,
+      name: display_name,
+      point: point
+    }
+  end
+
+end
