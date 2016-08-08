@@ -8,20 +8,21 @@ class Item
   field :k, as: :record, type: String
   field :n, as: :name, type: String
   field :p, as: :place, type: String
-  field :g, as: :point, type: Array
   field :e, as: :entry_number, type: Integer
   field :s, as: :start_date, type: Date
   field :f, as: :end_date, type: Date
+
+  field :coordinates, type: Array
 
   validates_uniqueness_of :record, scope: :register
 
   attr_readonly :register, :record
 
-  geocoded_by :point
+  geocoded_by :coordinates
 
   scope :not_ended, -> { where( :end_date => nil ) }
 
-  scope :with_coordinates, -> { where( :point.ne => nil ) }
+  scope :with_coordinates, -> { where(:coordinates.ne => nil) }
 
   scope :not_street, -> { where(:register.ne => 'street') }
 
@@ -94,7 +95,7 @@ class Item
     {
       curie: curie,
       name: display_name,
-      point: point
+      point: coordinates
     }
   end
 

@@ -12,7 +12,7 @@ KEYS = {
   record: :k,
   name: :n,
   place: :p,
-  point: :g,
+  point: :coordinates,
   entry_number: :e,
   start_date: :s,
   end_date: :f,
@@ -107,6 +107,7 @@ osplaces = osplaces().group_by(&:point) ; nil
 local_authorities = items('local-authority').group_by(&:local_authority) ; nil
 
 Item.delete_all
+puts `rake db:mongoid:remove_indexes`
 
 list = schools.map do |school|
   place = place_for_school(school, addresses, streets, places).try(:name)
@@ -133,3 +134,5 @@ list = places.values.map do |place|
 end ; nil
 
 result = Item.collection.insert_many(list, ordered: false) ; nil
+
+puts `rake db:mongoid:create_indexes`
