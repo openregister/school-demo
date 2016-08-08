@@ -69,6 +69,11 @@ def items register
   items = Morph.from_tsv tsv, register
 end
 
+def osplaces
+  tsv = IO.read "../place-data/lists/os-open-names/places.tsv"
+  items = Morph.from_tsv tsv, 'OSPlace'
+end
+
 def create_item_hash item, register, place, addresses
   hash = values(item, register)
   point = point_for(item, addresses)
@@ -85,10 +90,20 @@ def create_item_hash item, register, place, addresses
   # item.save!
 end
 
+def county_for place, osplaces
+  if (osplace = osplaces[place.point]) && county = osplace.first.try(:county)
+    county
+  else
+    raise place.inspect
+    place.uk
+  end
+end
+
 schools = items 'school' ; nil
 addresses = items('address').group_by(&:address) ; nil
 streets = items('street').group_by(&:street) ; nil
 places = items('place').group_by(&:place) ; nil
+osplaces = osplaces().group_by(&:point) ; nil
 local_authorities = items('local-authority').group_by(&:local_authority) ; nil
 
 Item.delete_all
@@ -112,8 +127,9 @@ result = Item.collection.insert_many(list, ordered: false) ; nil
 
 list = places.values.map do |place|
   place = place.first
+  county = county_for(place, osplaces)
   print '`'
-  create_item_hash place, :place, place.uk, nil
+  create_item_hash place, :place, county, nil
 end ; nil
 
 result = Item.collection.insert_many(list, ordered: false) ; nil
