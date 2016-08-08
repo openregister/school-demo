@@ -5,8 +5,7 @@ class PointsController < ApplicationController
     if school = Item.school_at(point)
       redirect_to school_url(id: school.record)
     else
-      binding.pry
-      render json: []
+      @schools = Item.nearest_schools(point)
     end
   end
 

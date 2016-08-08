@@ -63,16 +63,24 @@ class Item
       end
     end
 
-    def nearest_schools lat, lon
-      school.geo_near([lon, lat]).spherical
+    def nearest_schools point
+      school.geo_near(lon_lat(point)).spherical
     end
 
     def school_at point
-      lon, lat = point.split(',') if point.is_a?(String)
-      lon = clean_coord lon
-      lat = clean_coord lat
-      schools_at_point = school.where(coordinates: [lon, lat])
+      schools_at_point = school.where(coordinates: lon_lat(point))
       schools_at_point.not_ended.first || schools_at_point.first
+    end
+
+    def lon_lat point
+      if point.is_a?(String)
+        lon, lat = point.split(',')
+        lon = clean_coord lon
+        lat = clean_coord lat
+        [lon, lat]
+      else
+        point
+      end
     end
 
     def clean_coord coord

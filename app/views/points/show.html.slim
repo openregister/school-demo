@@ -1,0 +1,16 @@
+h1.heading-xlarge Schools
+
+.grid-row
+  .column-full
+    form role='search' action='/search' method='get'
+      .form-group#search
+        input#q.typeahead.form-control name='q' data-host='localhost:3000' autofocus='autofocus' placeholder='Enter a town, street, or school name?' type='text'
+        button.search.button style="margin-left: 15px" type='submit' Search
+
+script src="../assets/typeahead.js"
+
+.grid-row
+  .column-full
+    ul
+      - @schools.each do |school|
+        li= link_to school.name, school_url(id: school.record)
