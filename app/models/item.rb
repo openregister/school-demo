@@ -2,7 +2,6 @@ class Item
 
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Geocoder::Model::Mongoid
 
   field :r, as: :register, type: String
   field :k, as: :record, type: String
@@ -18,8 +17,6 @@ class Item
 
   attr_readonly :register, :record
 
-  geocoded_by :coordinates
-
   scope :not_ended, -> { where( :end_date => nil ) }
 
   scope :with_coordinates, -> { where(:coordinates.ne => nil) }
@@ -31,6 +28,7 @@ class Item
   index({ register: 1 }, unique: false)
   index({ register: 1, record: 1 }, unique: true)
   index({ name: 1 }, unique: false)
+  index({ coordinates: "2dsphere"})
 
   class << self
     def search_pattern query
