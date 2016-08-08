@@ -1,3 +1,5 @@
+require 'openregister'
+
 class SchoolsController < ApplicationController
 
   def show

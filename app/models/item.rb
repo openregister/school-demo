@@ -17,11 +17,13 @@ class Item
 
   attr_readonly :register, :record
 
-  scope :not_ended, -> { where( :end_date => nil ) }
+  scope :not_ended, -> { where(end_date: nil) }
 
   scope :with_coordinates, -> { where(:coordinates.ne => nil) }
 
   scope :not_street, -> { where(:register.ne => 'street') }
+
+  scope :school, -> { where(register: 'school') }
 
   scope :matching, ->(pattern) { where(name: pattern).not_street.not_ended.limit(5) }
 
@@ -61,8 +63,20 @@ class Item
       end
     end
 
-    def nearest_schools lat, lon, range
-      near([lat, lon], range).where(register: 'school')
+    def nearest_schools lat, lon
+      school.geo_near([lon, lat]).spherical
+    end
+
+    def school_at point
+      lon, lat = point.split(',') if point.is_a?(String)
+      lon = clean_coord lon
+      lat = clean_coord lat
+      schools_at_point = school.where(coordinates: [lon, lat])
+      schools_at_point.not_ended.first || schools_at_point.first
+    end
+
+    def clean_coord coord
+      BigDecimal.new(coord.to_s).to_f
     end
   end
 
