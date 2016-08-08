@@ -6,6 +6,7 @@ class ItemsController < ApplicationController
   end
 
   def index
+    @items = Item.search params[:q].to_s.strip.chomp(',') if params[:q]
   end
 
 end
