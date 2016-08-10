@@ -5,3 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+puts `pwd`
+load './lib/tasks/download_data.rb' # downloads data
+load './lib/tasks/load_data.rb' # loads data

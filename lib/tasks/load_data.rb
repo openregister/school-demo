@@ -65,12 +65,16 @@ def place_for_school school, addresses, streets, places
 end
 
 def items register
-  tsv = IO.read "../discovery/data/#{register}/#{register}.tsv" ; nil
+  puts "read: #{register}"
+  tmp_dir = './tmp/data'
+  tsv = IO.read "#{tmp_dir}/#{register}/#{register}.tsv" ; nil
   items = Morph.from_tsv tsv, register
 end
 
 def osplaces
-  tsv = IO.read "../place-data/lists/os-open-names/places.tsv"
+  puts 'read: osplaces'
+  tmp_dir = './tmp/data'
+  tsv = IO.read "#{tmp_dir}/os-open-names/places.tsv"
   items = Morph.from_tsv tsv, 'OSPlace'
 end
 
@@ -106,33 +110,36 @@ places = items('place').group_by(&:place) ; nil
 osplaces = osplaces().group_by(&:point) ; nil
 local_authorities = items('local-authority').group_by(&:local_authority) ; nil
 
+puts 'delete items collection'
 Item.delete_all
+puts 'remove indexes'
 puts `rake db:mongoid:remove_indexes`
 
+puts 'persist school names'
 list = schools.map do |school|
   place = place_for_school(school, addresses, streets, places).try(:name)
-  print '.'
   create_item_hash school, :school, place, addresses
 end ; nil
 
 result = Item.collection.insert_many(list, ordered: false) ; nil
 
+puts 'persist street names'
 list = streets.values.map do |street|
   street = street.first
   place = place_for(street, places).try(:name)
-  print ','
   create_item_hash street, :street, place, addresses
 end ; nil
 
 result = Item.collection.insert_many(list, ordered: false) ; nil
 
+puts 'persist place names'
 list = places.values.map do |place|
   place = place.first
   county = county_for(place, osplaces)
-  print '`'
   create_item_hash place, :place, county, nil
 end ; nil
 
 result = Item.collection.insert_many(list, ordered: false) ; nil
 
+puts 'create indexes'
 puts `rake db:mongoid:create_indexes`
