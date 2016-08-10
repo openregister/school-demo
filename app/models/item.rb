@@ -21,9 +21,10 @@ class Item
 
   scope :with_coordinates, -> { where(:coordinates.ne => nil) }
 
+  scope :at, -> (point) { where(coordinates: lon_lat(point)) }
   scope :not_street, -> { where(:register.ne => 'street') }
 
-  scope :school, -> { where(register: 'school') }
+  scope :schools, -> { where(register: 'school') }
 
   scope :matching, ->(pattern) { where(name: pattern).not_street.not_ended.limit(5) }
 
@@ -64,11 +65,11 @@ class Item
     end
 
     def nearest_schools point
-      school.geo_near(lon_lat(point)).spherical
+      schools.geo_near(lon_lat(point)).spherical
     end
 
     def school_at point
-      schools_at_point = school.where(coordinates: lon_lat(point))
+      schools_at_point = schools.at(point)
       schools_at_point.not_ended.first || schools_at_point.first
     end
 
