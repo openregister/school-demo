@@ -10,7 +10,10 @@ h1.heading-xlarge Schools
 script src="../assets/typeahead.js"
 
 .grid-row
-  .column-full
+  .column-half
     ul
       - @schools.each do |school|
-        li= link_to school.name, school_url(id: school.record)
+        li
+          = link_to school.name, school_url(id: school.record), class: 'school', data: {lat: school.coordinates.try(:last), lon: school.coordinates.try(:first)}
+  .column-half
+    == render partial: 'shared/map', locals: { lat: @lat, lon: @lon }
