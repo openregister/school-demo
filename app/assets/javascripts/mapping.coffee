@@ -11,6 +11,8 @@ $(document).ready( ->
 
     zoom = 15
 
+    L.Icon.Default.imagePath = '../images'
+
     map = L.map("map",
       center: [
         lat
