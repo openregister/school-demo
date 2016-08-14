@@ -18,7 +18,8 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'rack-proxy'
 
-gem 'openregister-ruby', git: 'https://github.com/robmckinnon/openregister-ruby.git'
+gem 'rest-client', '>= 2.0.0'
+gem 'openregister-ruby', git: 'https://github.com/robmckinnon/openregister-ruby.git', branch: 'activesupport-cache'
 gem 'nokogiri'
 
 gem 'dalli'

@@ -1,10 +1,11 @@
 GIT
   remote: https://github.com/robmckinnon/openregister-ruby.git
-  revision: aa1e212b0dad289210aba763ebf2976c979326c9
+  revision: 3f298381d2d5c0ac7d143d630d47158dba7d9792
+  branch: activesupport-cache
   specs:
     openregister-ruby (0.0.1)
       morph (~> 0.5.0)
-      rest-client (~> 1)
+      rest-client (~> 2)
 
 GEM
   remote: https://rubygems.org/
@@ -112,7 +113,9 @@ GEM
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
     method_source (0.8.2)
-    mime-types (2.99.2)
+    mime-types (3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
     mongo (2.2.7)
@@ -170,10 +173,10 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
-    rest-client (1.8.0)
+    rest-client (2.0.0)
       http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -259,6 +262,7 @@ DEPENDENCIES
   rack-proxy
   rails (~> 5.0.0)
   rb-fsevent (<= 0.9.4)
+  rest-client (>= 2.0.0)
   rspec-rails (~> 3.5.1)
   sass-rails (~> 5.0)
   slim
