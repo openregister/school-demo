@@ -2,7 +2,7 @@
 $(document).ready( ->
   root = exports ? this
   mapDiv = $("#map")
-  if mapDiv?
+  if mapDiv? && mapDiv.size() > 0
     lat = mapDiv.data("lat")
     lon = mapDiv.data("lon")
     host = mapDiv.data('host')
