@@ -73,9 +73,37 @@ button.search
 .form-control
   width: 280px
 
-.tt-dropdown-menu
+.tt-menu
+  text-align: left
+
+.typeahead, .tt-query, .tt-hint
+  width: 396px
+  padding-left: 8px
+  font-size: 24px
+  line-height: 34px
+  border: 2px solid #ccc
+  outline: none
+
+.tt-highlight
+  font-weight: bolder
+
+.typeahead
+  background-color: #fff
+
+.typeahead:focus
+  border: 2px solid #0097cf
+
+.tt-query
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+
+.tt-hint
+  color: #999
+
+.tt-menu
   width: 422px
-  margin-top: 12px
+  margin: 12px 0
   padding: 8px 0
   background-color: #fff
   border: 1px solid #ccc
@@ -91,17 +119,18 @@ button.search
   padding: 3px 20px
   font-size: 18px
   line-height: 24px
-  color: #555
-  p
-    margin: 0
 
-.typeahead, .tt-suggestion
-  font-weight: normal
-  text-align: left
+.tt-suggestion:hover
+  cursor: pointer
+  color: #fff
+  background-color: #0097cf
 
 .tt-suggestion.tt-cursor
   color: #fff
   background-color: #0097cf
+
+.tt-suggestion p
+  margin: 0
 
 // Custom map styles
 // ==========================================================================

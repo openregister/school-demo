@@ -13,5 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require typeahead
+//= require configure_typeahead
 //= require leaflet
 //= require mapping
