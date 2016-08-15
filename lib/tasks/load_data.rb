@@ -41,8 +41,8 @@ def street_for address, streets
   streets[address.try(:street)].try(:first)
 end
 
-def place_for street, places
-  places[street.try(:place)].try(:first)
+def place_for street, places, local_authorities
+  (places[street.try(:place)] || local_authorities[street.try(:local_authority)]).try(:first)
 end
 
 def point_for item, addresses
@@ -56,10 +56,10 @@ def point_for item, addresses
   end
 end
 
-def place_for_school school, addresses, streets, places
+def place_for_school school, addresses, streets, places, local_authorities
   if address = address_for(school, addresses)
     if street = street_for(address, streets)
-      place_for(street, places)
+      place_for(street, places, local_authorities)
     end
   end
 end
@@ -117,7 +117,7 @@ puts `rake db:mongoid:remove_indexes`
 
 puts 'persist school names'
 list = schools.map do |school|
-  place = place_for_school(school, addresses, streets, places).try(:name)
+  place = place_for_school(school, addresses, streets, places, local_authorities).try(:name)
   create_item_hash school, :school, place, addresses
 end ; nil
 
@@ -126,7 +126,7 @@ result = Item.collection.insert_many(list, ordered: false) ; nil
 puts 'persist street names'
 list = streets.values.map do |street|
   street = street.first
-  place = place_for(street, places).try(:name)
+  place = place_for(street, places, local_authorities).try(:name)
   create_item_hash street, :street, place, addresses
 end ; nil
 
