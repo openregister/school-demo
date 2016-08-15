@@ -1,7 +1,9 @@
-h1.heading-xlarge= @school.name
+h1.heading-xlarge.school
+  span.school data={lat: @lat, lon: @lon, place: ''}
+    = @school.name
 
 .grid-row
-  .column-full
+  .column-two-thirds
     dl.metadata-school-detail
       dt Address
       dd= display_address(@school._address).sub(@school.name.titlecase, '')
@@ -9,7 +11,7 @@ h1.heading-xlarge= @school.name
       dt Local authority
       dd= @school.local_authority
 
-      dt Headteacher / Principal
+      dt Headteacher
       dd= @school.headteacher
 
       dt Age range
@@ -35,6 +37,8 @@ h1.heading-xlarge= @school.name
         a href="#{@school.website}" rel="external"
           = @school.website
 
+  .column-one-third
+    == render partial: 'shared/map', locals: { lat: @lat, lon: @lon }
 
 .grid-row
   .column-full
