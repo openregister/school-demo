@@ -50,6 +50,6 @@ $(document).ready( ->
         marker = L.marker([lat,lon], options)
         # circle.setRadius(20)
         marker.addTo(map)
-        marker.bindPopup("<p>" + school.parent().html() + "</p>")
+        marker.bindPopup("<p>" + school.parent().html() + ", " + school.data('place') + "</p>")
 
 )
