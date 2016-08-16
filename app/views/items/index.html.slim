@@ -13,3 +13,9 @@ h1.heading-xlarge Find schools
           li= link_to place.display_name, point_url(id: place.coordinates.join(','))
         - @items.select{|x| x.register == 'school' && x.end_date.blank? }.each do |school|
           li= link_to school.display_name, school_url(id: school.record)
+
+.grid-row
+  .column-full
+    h2.heading-small
+      | This search service was made using
+      = link_to 'an index of data sourced from registers.', indices_url()
