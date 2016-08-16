@@ -1,12 +1,12 @@
 module ApplicationHelper
 
   def display_address address
-    street = address._street
-    address_line = [address, street].map(&:name).map(&:downcase).map(&:titlecase).join(' ')
+    street = address.try(:_street)
+    address_line = [address, street].compact.map(&:name).map(&:downcase).map(&:titlecase).join(' ')
     [
       address_line,
-      street._place.try(:name),
-      street._local_authority.try(:name),
+      street.try(:_place).try(:name),
+      street.try(:_local_authority).try(:name),
     ].compact.join(', ')
   end
 
