@@ -25,6 +25,7 @@ class Item
   scope :not_street, -> { where(:register.ne => 'street') }
 
   scope :schools, -> { where(register: 'school') }
+  scope :places, -> { where(register: 'place') }
 
   scope :matching, -> (pattern, limit) { where(name: pattern).not_street.not_ended.with_coordinates.limit(limit) }
 

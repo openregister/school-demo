@@ -1,0 +1,26 @@
+h1.heading-xlarge Index of register sourced data
+
+.grid-row
+  .column-full
+    table
+      thead        
+        tr
+          th Text index
+          th Geospatial index
+          th Register
+          th Record key
+          th Location          
+      tbody
+        - (@schools + @places).sort_by(&:name).each do |item|
+          tr
+            td= item.name
+            td.numeric= item.coordinates.try(:join, ',')
+            td= item.register
+            td.numeric= link_to item.record, record_url(item)
+            td= item.place
+.grid-row
+  .column-full
+    p= paginate @schools
+.grid-row
+  .column-full
+    p= link_to 'Back to search', '/', class: 'link-back'

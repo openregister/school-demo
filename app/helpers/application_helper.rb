@@ -20,4 +20,8 @@ module ApplicationHelper
     end
   end
 
+  def record_url item
+    "https://#{item.register}.#{ENV['PHASE']}.openregister.org/record/#{item.record}"
+  end
+
 end
