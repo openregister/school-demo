@@ -1,24 +1,34 @@
-# README
+# OpenRegister School Demo
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Deployment
 
-Things you may want to cover:
+### Environment variables
 
-* Ruby version
+`HOST` is url of your site, e.g. https://your-app-name.herokuapp.com
 
-* System dependencies
+`MAP_API_HOST` is [URL template for map tile server](http://leafletjs.com/reference.html#url-template), e.g. http://{s}.somedomain.com/blabla/{z}/{x}/{y}.png
 
-* Configuration
+### Heroku deployment
 
-* Database creation
+To setup fresh heroku deployment:
 
-* Database initialization
+```sh
+heroku create --region eu --org <org>
 
-* How to run the test suite
+heroku apps:rename <your-app-name>
 
-* Services (job queues, cache servers, search engines, etc.)
+heroku addons:create mongolab:sandbox
 
-* Deployment instructions
+heroku addons:create memcachier:dev
 
-* ...
+heroku addons:destroy heroku-postgresql --confirm <your-app-name>
+
+heroku config:set HOST=<site-url> MAP_API_HOST=<map-url-template>
+
+git push heroku master
+
+heroku run rake db:seed
+
+heroku open
+```
+

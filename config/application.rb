@@ -24,8 +24,3 @@ module SchoolDemo
   end
 end
 
-Rails.application.configure do
-
-  config.middleware.use "ProxyToOther"
-
-end

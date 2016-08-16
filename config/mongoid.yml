@@ -1,0 +1,25 @@
+production:
+  clients:
+    default:
+      uri: <%= ENV['MONGODB_URI'] %>
+      options:
+        connect_timeout: 15
+development:
+  clients:
+    default:
+      database: school_demo_development
+      hosts:
+        - localhost:27017
+      options:
+  # Configure Mongoid specific options. (optional)
+  options:
+test:
+  clients:
+    default:
+      database: school_demo_test
+      hosts:
+        - localhost:27017
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1

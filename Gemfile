@@ -18,16 +18,20 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'rack-proxy'
 
+gem 'rest-client', '>= 2.0.0'
 gem 'openregister-ruby', git: 'https://github.com/robmckinnon/openregister-ruby.git'
 gem 'nokogiri'
 
 gem 'dalli'
 
+gem 'mongoid', '= 6.0.0.beta'
+# gem 'mongoid-enum'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
-  gem 'rspec-rails'
-  gem 'guard-rspec'
+  gem 'rspec-rails', '~> 3.5.1'
+  gem 'guard-rspec', '~> 4.7.3'
 end
 
 group :development do

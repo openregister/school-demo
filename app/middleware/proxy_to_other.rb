@@ -42,7 +42,7 @@ class ProxyToOther < Rack::Proxy
     puts "path: " + path.inspect
     if path.first
       case path.first
-      when /^\/schools\/\d+$/, /^\/assets\/.+$/
+      when /^\/schools\/\d+$/, /^\/assets\/.+$/, /^\/items$/, /^\/items.+$/
         puts 'false'
         false
       else
