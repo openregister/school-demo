@@ -5,18 +5,18 @@ h1.heading-xlarge Index of register sourced data
     table
       thead        
         tr
-          th Text index
-          th Geospatial index
+          th Name
+          th Point
           th Register
-          th Record key
+          th Record
           th Location          
       tbody
-        - (@schools + @places).sort_by(&:name).each do |item|
+        - (@schools + @places).sort_by{|x| x.coordinates.to_s }.reverse.each do |item|
           tr
             td= item.name
-            td.numeric= item.coordinates.try(:join, ',')
+            td= item.coordinates.try(:join, ',')
             td= item.register
-            td.numeric= link_to item.record, record_url(item)
+            td= link_to item.record, record_url(item)
             td= item.place
 .grid-row
   .column-full
