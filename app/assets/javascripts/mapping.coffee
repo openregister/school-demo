@@ -36,7 +36,7 @@ $(document).ready( ->
 
     # L.tileLayer(host+'/'+tp+"/{z}/{x}/{y}?apikey=#{key}",
     L.tileLayer(host+"/{z}/{x}/{y}.png",
-      attribution: $('<div />').html(attribution).text(),
+      attribution: attribution,
       maxZoom: 18
     ).addTo map
 

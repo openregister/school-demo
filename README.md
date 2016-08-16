@@ -10,6 +10,8 @@
 
 `PHASE` the register phase, e.g. discovery
 
+`MAP_ATTRIBUTION` html for map data attribution
+
 ### Heroku deployment
 
 To setup fresh heroku deployment:
@@ -25,7 +27,7 @@ heroku addons:create memcachier:dev
 
 heroku addons:destroy heroku-postgresql --confirm <your-app-name>
 
-heroku config:set HOST=<site-url> MAP_API_HOST=<map-url-template> PHASE=<register-phase>
+heroku config:set HOST=<site-url> MAP_API_HOST=<map-url-template> PHASE=<register-phase> MAP_ATTRIBUTION=<data-attribution-html>
 
 git push heroku master
 
