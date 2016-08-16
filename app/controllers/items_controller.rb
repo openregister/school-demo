@@ -8,6 +8,10 @@ class ItemsController < ApplicationController
   def index
     if params[:q]
       @items = Item.search params[:q].to_s.strip.chomp(','), limit: 250
+      if @items.try(:size) == 0
+        @items = Item.search params[:q].to_s.split(',').first.strip.chomp(','), limit: 250
+      end
+
       if @items.try(:size) == 1
         item = @items.first
         case item.register
