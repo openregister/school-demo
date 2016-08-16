@@ -26,12 +26,12 @@ address].each do |r|
     puts "file already exists: #{data_file}"
   else
     `mkdir #{tmp_dir}/#{r}`
-    count = `curl http://#{r}.discovery.openregister.org/ | grep -A 1 'Total records:' | grep dd |  sed 's/.*records">//' | sed 's/<span.*//'`
+    count = `curl http://#{r}.#{ENV['PHASE']}.openregister.org/ | grep -A 1 'Total records:' | grep dd |  sed 's/.*records">//' | sed 's/<span.*//'`
     pages = (Integer(count.strip) / 5000) + 1
 
     files = []
     1.upto(pages) do |i|
-      url = "http://#{r}.discovery.openregister.org/records.tsv?page-index=#{i}&page-size=5000"
+      url = "http://#{r}.#{ENV['PHASE']}.openregister.org/records.tsv?page-index=#{i}&page-size=5000"
       tmp_file = "#{tmp_dir}/#{r}/#{r}-#{"%05d" % (i)}.tsv"
       cmd = "curl --output '#{tmp_file}' '#{url}'"
       puts cmd
