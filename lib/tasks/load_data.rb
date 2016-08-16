@@ -84,14 +84,6 @@ def create_item_hash item, register, place, addresses
   hash[:point] = point if point
   hash[:place] = place if place
   convert_keys hash
-  # item = Item.find_or_create_by(register: register, record: record)
-  # item.name = name
-  # item.start_date = start_date
-  # item.end_date = end_date
-  # item.point = point if point
-  # item.place = place if place
-  # print '.'
-  # item.save!
 end
 
 def county_for place, osplaces
