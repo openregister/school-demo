@@ -7,7 +7,7 @@ class ItemsController < ApplicationController
 
   def index
     if params[:q]
-      @items = Item.search params[:q].to_s.strip.chomp(',')
+      @items = Item.search params[:q].to_s.strip.chomp(','), limit: 250
       if @items.try(:size) == 1
         item = @items.first
         case item.register
@@ -16,6 +16,8 @@ class ItemsController < ApplicationController
         when 'school'
           redirect_to school_url(id: item.record)
         end
+      else
+        @items.sort_by!(&:display_name)
       end
     end
   end

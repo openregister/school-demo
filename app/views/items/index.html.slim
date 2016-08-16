@@ -7,6 +7,7 @@ h1.heading-xlarge Find schools
 - if @items
   .grid-row
     .column-full
+      p= pluralize(@items.count, 'result')
       ul
         - @items.select{|x| x.register == 'place' }.each do |place|
           li= link_to place.display_name, point_url(id: place.coordinates.join(','))

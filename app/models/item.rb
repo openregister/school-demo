@@ -26,7 +26,7 @@ class Item
 
   scope :schools, -> { where(register: 'school') }
 
-  scope :matching, ->(pattern) { where(name: pattern).not_street.not_ended.limit(5) }
+  scope :matching, -> (pattern, limit) { where(name: pattern).not_street.not_ended.with_coordinates.limit(limit) }
 
   index({ register: 1 }, unique: false)
   index({ register: 1, record: 1 }, unique: true)
@@ -44,16 +44,16 @@ class Item
       # end
     end
 
-    def matches_for query
+    def matches_for query, limit
       pattern = search_pattern(query)
-      matches = matching(pattern) +
-        matching(/^#{pattern}/i)
+      matches = matching(pattern, limit) +
+        matching(/^#{pattern}/i, limit)
         # matching(/^(.+\s)+#{pattern}/i)
       matches.uniq
     end
 
-    def search query
-      query.blank? ? [] : matches_for(query)
+    def search query, limit: 5
+      query.blank? ? [] : matches_for(query, limit)
     end
 
     def record register, record
