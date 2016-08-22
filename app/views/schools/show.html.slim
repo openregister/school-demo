@@ -9,7 +9,7 @@ h1.heading-xlarge.school
       dd= display_address(@school._address).sub(@school.name.titlecase, '')
 
       dt Local authority
-      dd= @school.local_authority
+      dd= school_authority(@school)
 
       dt Headteacher
       dd= @school.headteacher
