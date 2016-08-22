@@ -54,6 +54,8 @@ class Item
     end
 
     def search query, limit: 5
+      query = query.to_s.strip.chomp(',').chomp('"').chomp("'")
+      query = query.gsub(/^("|')/,'')
       query.blank? ? [] : matches_for(query, limit)
     end
 

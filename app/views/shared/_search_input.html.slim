@@ -1,4 +1,4 @@
 form role='search' action='/items' method='get'
   .form-group#search
-    input#q.typeahead.form-control name='q' data-host=ENV['HOST'] autofocus='autofocus' placeholder='Enter a place or school name' type='text'
+    input#q.typeahead.form-control name='q' data-host=ENV['HOST'] autofocus='autofocus' placeholder='Enter a place or school name' type='text' value='#{@query}'
     button.search.button style="margin-left: 15px" type='submit' Search

@@ -5,6 +5,7 @@ class PointsController < ApplicationController
     if school = Item.school_at(point)
       redirect_to school_url(id: school.record)
     else
+      @query = flash[:query]
       item = Item.at(point).first
       @lon, @lat = Item.lon_lat point
       @heading = item ? "Schools near #{item.name}" : "Schools near lon: #{@lon}, lat: #{@lat}"

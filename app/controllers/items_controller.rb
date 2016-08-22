@@ -6,16 +6,18 @@ class ItemsController < ApplicationController
   end
 
   def index
-    if params[:q]
-      @items = Item.search params[:q].to_s.strip.chomp(','), limit: 250
+    @query = params[:q]
+    if @query
+      @items = Item.search @query, limit: 250
       if @items.try(:size) == 0
-        @items = Item.search params[:q].to_s.split(',').first.strip.chomp(','), limit: 250
+        @items = Item.search @query.to_s.split(',').first, limit: 250
       end
 
       if @items.try(:size) == 1
         item = @items.first
         case item.register
         when 'place'
+          flash[:query] = @query
           redirect_to point_url(id: item.coordinates.join(','))
         when 'school'
           redirect_to school_url(id: item.record)
