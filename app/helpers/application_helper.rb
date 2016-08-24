@@ -47,4 +47,7 @@ module ApplicationHelper
     end
   end
 
+  def headteacher school
+    school.headteacher.present? ? school.headteacher : 'Not yet notified'
+  end
 end
