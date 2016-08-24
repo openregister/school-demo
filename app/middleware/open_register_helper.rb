@@ -23,13 +23,15 @@ module OpenRegisterHelper
       select{ |field| field.register.present? && field.register != item.class.register }.
       select{ |field| item.send(field.field.underscore).present? }.
       map do |field|
-      puts ''
-      puts '===='
-      puts field.field
-      puts item.send(field.field.underscore)
-      puts '---'
-      puts ''
-      item.send("_#{field.field.underscore}")
+        value = item.send("_#{field.field.underscore}")
+        puts ''
+        puts '===='
+        puts field.field
+        puts item.send(field.field.underscore)
+        puts value.class.name
+        puts '---'
+        puts ''
+        value
     end
   end
 
@@ -37,11 +39,13 @@ module OpenRegisterHelper
     items.map do |item|
       if item.is_a?(Array)
         record_fields_from_list(item)
+      elsif item.nil?
+        nil
       else
         records = record_fields(item)
         records.push(*record_fields_from_list(records))
       end
-    end.flatten
+    end.flatten.compact
   end
 
 end

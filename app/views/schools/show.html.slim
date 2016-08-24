@@ -12,7 +12,7 @@ h1.heading-xlarge.school
       dd= school_authority(@school)
 
       dt Headteacher
-      dd= @school.headteacher
+      dd= headteacher(@school)
 
       dt Age range
       dd= age_range(@school)
@@ -34,8 +34,11 @@ h1.heading-xlarge.school
 
       dt Website
       dd
-        a href="#{@school.website}" rel="external"
-          = @school.website
+        - if @school.website.present?
+          a href="#{@school.website}" rel="external"
+            = @school.website
+        - else
+          | Not known
 
   .column-one-third
     == render partial: 'shared/map', locals: { lat: @lat, lon: @lon }

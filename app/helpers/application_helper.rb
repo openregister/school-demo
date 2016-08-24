@@ -25,6 +25,8 @@ module ApplicationHelper
   def denominations school
     if school.denominations.present?
       school._denominations.map(&:name).join(", ")
+    else
+      'Does not apply'
     end
   end
 
@@ -45,4 +47,7 @@ module ApplicationHelper
     end
   end
 
+  def headteacher school
+    school.headteacher.present? ? school.headteacher : 'Not yet notified'
+  end
 end
