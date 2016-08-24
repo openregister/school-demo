@@ -2,12 +2,20 @@ module ApplicationHelper
 
   def display_address address
     street = address.try(:_street)
-    address_line = [address, street].compact.map(&:name).map(&:downcase).map(&:titlecase).join(' ')
-    [
-      address_line,
-      street.try(:_place).try(:name),
-      street.try(:_local_authority).try(:name),
-    ].compact.join(', ')
+    address_lines = [address, street].
+                    compact.
+                    map(&:name).
+                    map(&:strip).
+                    select(&:present?).
+                    map(&:downcase).
+                    map(&:titlecase)
+    lines = address_lines + [
+      street.try(:_place).try(:name)
+    ]
+    lines.
+    compact.
+    join('<br />').
+    html_safe
   end
 
   def age_range school

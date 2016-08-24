@@ -5,8 +5,8 @@ h1.heading-xlarge.school
 .grid-row
   .column-two-thirds
     dl.metadata-school-detail
-      dt Address
-      dd= display_address(@school._address).sub(@school.name.titlecase, '')
+      dt.address Address
+      dd.address= display_address(@school._address)
 
       dt Local authority
       dd= school_authority(@school)
