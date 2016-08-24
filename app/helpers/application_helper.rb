@@ -2,7 +2,8 @@ module ApplicationHelper
 
   def display_address address
     street = address.try(:_street)
-    address_lines = [address, street].
+    parent_address = address.try(:parent_address).present? ? address.try(:_parent_address) : nil
+    address_lines = [address, parent_address, street].
                     compact.
                     map(&:name).
                     map(&:strip).
