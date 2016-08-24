@@ -9,7 +9,7 @@ h1.heading-xlarge.school
       dd= display_address(@school._address).sub(@school.name.titlecase, '')
 
       dt Local authority
-      dd= @school.local_authority
+      dd= school_authority(@school)
 
       dt Headteacher
       dd= @school.headteacher
@@ -18,7 +18,7 @@ h1.heading-xlarge.school
       dd= age_range(@school)
 
       dt Phase of education
-      dd= @school._school_phase.try(:name) if @school.school_phase.present?
+      dd= school_phase(@school)
 
       dt School type
       dd= @school._school_type.try(:name)

@@ -24,4 +24,17 @@ module ApplicationHelper
     "https://#{item.register}.#{ENV['PHASE']}.openregister.org/record/#{item.record}"
   end
 
+  def school_authority school
+    authority = school.try(:_school_authority)
+    authority.try(:_organisation).try(:name) || authority.try(:name)
+  end
+
+  def school_phase school
+    if school.school_phase.present?
+      school._school_phase.try(:name)
+    else
+      "Not applicable"
+    end
+  end
+
 end
