@@ -39,11 +39,13 @@ module OpenRegisterHelper
     items.map do |item|
       if item.is_a?(Array)
         record_fields_from_list(item)
+      elsif item.nil?
+        nil
       else
         records = record_fields(item)
         records.push(*record_fields_from_list(records))
       end
-    end.flatten
+    end.flatten.compact
   end
 
 end
