@@ -25,6 +25,8 @@ module ApplicationHelper
   def denominations school
     if school.denominations.present?
       school._denominations.map(&:name).join(", ")
+    else
+      'Does not apply'
     end
   end
 
