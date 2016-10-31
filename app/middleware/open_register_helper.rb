@@ -51,6 +51,7 @@ module OpenRegisterHelper
   def self.school id
     school = OpenRegister.record 'school', id, ENV['PHASE'].to_sym
     set_address! school
+    set_school_trust_organisation! school
     school
   end
 
@@ -63,4 +64,15 @@ module OpenRegisterHelper
     end
   end
 
+  def self.set_school_trust_organisation! school
+    if school.school_trust.present?
+      if school.school_trust.organisation.present?
+        register, key = school.school_trust.organisation.split(':')
+        school.school_trust._organisation = OpenRegister.record register, key, :discovery
+      else
+        school.school_trust._organisation = 'nil'
+        school.school_trust._organisation = nil
+      end
+    end
+  end
 end
