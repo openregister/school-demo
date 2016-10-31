@@ -48,4 +48,19 @@ module OpenRegisterHelper
     end.flatten.compact
   end
 
+  def self.school id
+    school = OpenRegister.record 'school', id, ENV['PHASE'].to_sym
+    set_address! school
+    school
+  end
+
+  def self.set_address! school
+    if school.address.present?
+      school._address = OpenRegister.record 'address', school.address, :discovery
+    else
+      school._address = 'nil'
+      school._address = nil
+    end
+  end
+
 end

@@ -3,7 +3,7 @@ require 'openregister'
 class SchoolsController < ApplicationController
 
   def show
-    @school = OpenRegister.record 'school', params[:id], ENV['PHASE'].to_sym
+    @school = OpenRegisterHelper.school params[:id]
     if @school
       address = @school._address
       point = address.try(:point)
