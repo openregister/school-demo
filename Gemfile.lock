@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/robmckinnon/openregister-ruby.git
-  revision: 737bc9b7460bbb0d56298322b7ba9cb5da1626b6
+  revision: b2b4d2517b7649e24fb04eb0100c563d2103b633
+  branch: record-versions
   specs:
     openregister-ruby (0.0.1)
       morph (~> 0.5.0)
