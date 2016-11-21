@@ -49,7 +49,7 @@ module OpenRegisterHelper
   end
 
   def self.school id
-    school = OpenRegister.record 'school', id, ENV['PHASE'].to_sym
+    school = OpenRegister.record 'school-eng', id, ENV['PHASE'].to_sym
     set_address! school
     set_school_trust_organisation! school
     school
