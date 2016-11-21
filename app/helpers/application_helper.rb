@@ -49,6 +49,13 @@ module ApplicationHelper
   end
 
   def headteacher school
-    school.headteacher.present? ? school.headteacher : 'Not yet notified'
+    if school.try(:headteacher).present?
+      school.headteacher
+    elsif school.try(:end_date).present?
+      ''
+    else
+      'Not yet notified'
+    end
   end
+
 end
