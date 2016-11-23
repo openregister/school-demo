@@ -125,17 +125,17 @@ list = schools.map do |school|
   place = place_for_school(school, addresses, streets, places, local_authorities).try(:name)
   create_item_hash school, :school_eng, place, addresses
 end ; nil
-
 result = Item.collection.insert_many(list, ordered: false) ; nil
 
+=begin
 puts 'persist street names'
 list = streets.values.map do |street|
   street = street.first
   place = place_for(street, places, local_authorities).try(:name)
   create_item_hash street, :street, place, addresses
 end ; nil
-
 result = Item.collection.insert_many(list, ordered: false) ; nil
+=end
 
 puts 'persist place names'
 list = places.values.map do |place|
