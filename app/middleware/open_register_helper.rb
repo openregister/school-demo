@@ -20,7 +20,8 @@
 module OpenRegisterHelper
   def self.record_fields item
     item._register._fields.
-      select{ |field| field.register.present? && field.register != item.class.register }.
+      select{ |field| field.datatype == "curie" ||
+                     (field.register.present? && field.register != item.class.register) }.
       select{ |field| item.send(field.field.underscore).present? }.
       map do |field|
         value = item.send("_#{field.field.underscore}")
@@ -39,9 +40,7 @@ module OpenRegisterHelper
     items.map do |item|
       if item.is_a?(Array)
         record_fields_from_list(item)
-      elsif item.nil?
-        nil
-      else
+      elsif item.present?
         records = record_fields(item)
         records.push(*record_fields_from_list(records))
       end
