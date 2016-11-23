@@ -4,6 +4,7 @@ class Item
   include Mongoid::Timestamps
 
   field :r, as: :register, type: String
+  field :h, as: :phase, type: String
   field :k, as: :record, type: String
   field :n, as: :name, type: String
   field :p, as: :place, type: String

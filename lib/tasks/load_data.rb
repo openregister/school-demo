@@ -9,6 +9,7 @@ end
 
 KEYS = {
   register: :r,
+  phase: :h,
   record: :k,
   name: :n,
   place: :p,
@@ -78,11 +79,23 @@ def osplaces
   items = Morph.from_tsv tsv, 'OSPlace'
 end
 
+def phase_for register
+  name = register.to_s.gsub('_','-')
+  if Rails.configuration.alpha_registers.include?(name)
+    :alpha
+  elsif Rails.configuration.discovery_registers.include?(name)
+    :discovery
+  else
+    raise "unknown phase for: #{register}"
+  end  
+end
+
 def create_item_hash item, register, place, addresses
   hash = values(item, register)
   point = point_for(item, addresses)
   hash[:point] = point if point
   hash[:place] = place if place
+  hash[:phase] = phase_for(register)
   convert_keys hash
 end
 

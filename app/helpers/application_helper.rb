@@ -32,7 +32,7 @@ module ApplicationHelper
   end
 
   def record_url item
-    "https://#{item.register}.#{ENV['PHASE']}.openregister.org/record/#{item.record}"
+    "https://#{item.register}.#{item.phase}.openregister.org/record/#{item.record}"
   end
 
   def school_authority school
