@@ -32,13 +32,14 @@ h1.heading-xlarge.school
       dt Unique reference number
       dd= @school.school_eng
 
-      dt Website
-      dd
-        - if @school.website.present?
-          a href="#{@school.website}" rel="external"
-            = @school.website
-        - else
-          | Not known
+      - if @school.try(:website).present?
+        dt Website
+        dd
+          - if @school.try(:website).present?
+            a href="#{@school.website}" rel="external"
+              = @school.website
+          - else
+            | Not known
 
   .column-one-third
     == render partial: 'shared/map', locals: { lat: @lat, lon: @lon }
