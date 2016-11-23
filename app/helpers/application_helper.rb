@@ -36,7 +36,7 @@ module ApplicationHelper
   end
 
   def school_authority school
-    authority = school.try(:_school_authority)
+    authority = school.try(:_school_authority_eng)
     authority.try(:_organisation).try(:name) || authority.try(:name)
   end
 

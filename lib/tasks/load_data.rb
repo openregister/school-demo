@@ -25,7 +25,7 @@ end
 
 def values item, register
   hash = {
-    register: register,
+    register: register.to_s.gsub('_','-'),
     record: item.send(register)
   }
   [:name, :start_date, :end_date, :entry_number].each do |field|
@@ -108,12 +108,12 @@ def county_for place, osplaces
   end
 end
 
-schools = items 'school' ; nil
+schools = items 'school-eng' ; nil
 addresses = items('address').group_by(&:address) ; nil
 streets = items('street').group_by(&:street) ; nil
 places = items('place').group_by(&:place) ; nil
 osplaces = osplaces().group_by(&:point) ; nil
-local_authorities = items('local-authority').group_by(&:local_authority) ; nil
+local_authorities = items('local-authority-eng').group_by(&:local_authority_eng) ; nil
 
 puts 'delete items collection'
 Item.delete_all
@@ -123,7 +123,7 @@ puts `rake db:mongoid:remove_indexes`
 puts 'persist school names'
 list = schools.map do |school|
   place = place_for_school(school, addresses, streets, places, local_authorities).try(:name)
-  create_item_hash school, :school, place, addresses
+  create_item_hash school, :school_eng, place, addresses
 end ; nil
 
 result = Item.collection.insert_many(list, ordered: false) ; nil
