@@ -21,7 +21,7 @@ h1.heading-xlarge.school
       dd= school_phase(@school)
 
       dt School type
-      dd= @school._school_type.try(:name)
+      dd= school_type(@school)
 
       dt Gender of entry
       dd= @school._school_gender.try(:name)

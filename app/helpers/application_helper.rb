@@ -40,6 +40,15 @@ module ApplicationHelper
     authority.try(:_organisation).try(:name) || authority.try(:name)
   end
 
+  def school_type school
+    case school._organisation.class.name
+    when 'OpenRegister::SchoolType'
+      school._organisation.name
+    else
+      school._organisation._school_type.name
+    end
+  end
+
   def school_phase school
     if school.school_phase.present?
       school._school_phase.try(:name)
