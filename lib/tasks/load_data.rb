@@ -43,7 +43,7 @@ def street_for address, streets
 end
 
 def place_for street, places, local_authorities
-  (places[street.try(:place)] || local_authorities[street.try(:local_authority)]).try(:first)
+  (places[street.try(:place)] || local_authorities[street.try(:street_custodian)]).try(:first)
 end
 
 def point_for item, addresses
