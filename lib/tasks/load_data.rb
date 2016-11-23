@@ -143,7 +143,6 @@ list = places.values.map do |place|
   county = county_for(place, osplaces)
   create_item_hash place, :place, county, nil
 end ; nil
-
 result = Item.collection.insert_many(list, ordered: false) ; nil
 
 puts 'create indexes'
