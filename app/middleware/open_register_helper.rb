@@ -50,8 +50,8 @@ module OpenRegisterHelper
   def self.school id
     school = OpenRegister.record 'school-eng', id, ENV['PHASE'].to_sym
     set_address! school
-    case school._organisation
-      when OpenRegister::AcademySchoolEng
+    case school._organisation.class.name
+      when 'OpenRegister::AcademySchoolEng'
         set_academy_trust_company! school._organisation
     end
     school
