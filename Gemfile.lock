@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/robmckinnon/openregister-ruby.git
-  revision: b2b4d2517b7649e24fb04eb0100c563d2103b633
+  revision: 8bcf4b4e80c10a130057228fe12bc4ec5ee46968
   branch: record-versions
   specs:
     openregister-ruby (0.0.1)
@@ -63,7 +63,7 @@ GEM
     dalli (2.7.2)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
-    domain_name (0.5.20160615)
+    domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (2.7.0)
@@ -94,7 +94,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    http-cookie (1.0.2)
+    http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
     jbuilder (2.5.0)
@@ -120,7 +120,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
-    minitest (5.9.0)
+    minitest (5.9.1)
     mongo (2.2.7)
       bson (~> 4.0)
     mongoid (6.0.0.beta)
