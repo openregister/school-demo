@@ -35,7 +35,15 @@ module OpenRegisterHelper
   def self.record_fields item
     item._register._fields.
       select{ |field| is_record_link?(field, item) }.
-      select{ |field| item.send(field.field.underscore).present? }.
+      select{ |field|
+        begin
+          item.send(field.field.underscore).present?
+        rescue Exception => e
+          puts e.to_s
+          puts e.backtrace.join("\n")
+          false
+        end
+      }.
       map do |field|
         value = item.send("_#{field.field.underscore}")
         puts ''
