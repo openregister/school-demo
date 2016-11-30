@@ -85,4 +85,9 @@ module ApplicationHelper
     end
   end
 
+  def date date
+    if date.present?
+      Date.parse(date).strftime('%e %B %Y')
+    end
+  end
 end

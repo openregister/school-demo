@@ -32,6 +32,13 @@ h1.heading-xlarge.school
       dt Unique reference number
       dd= @school.school_eng
 
+      dt Open date
+      dd= date(@school.start_date)
+
+      - if @school.end_date.present?
+        dt Close date
+        dd= date(@school.end_date)
+
       - if @school.try(:website).present?
         dt Website
         dd
@@ -46,7 +53,7 @@ h1.heading-xlarge.school
           - when OpenRegister::AcademySchoolEng
             - if org.school_trust_join_date.present?
               dt Academy trust joined date
-              dd= org.school_trust_join_date
+              dd= date(org.school_trust_join_date)
             - if org.academy_trust.present? && (trust_name = trust_name(org._academy_trust)).present?
               dt Academy trust company no.
               dd= org.academy_trust.sub('company:','')
