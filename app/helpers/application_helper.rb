@@ -67,4 +67,22 @@ module ApplicationHelper
     end
   end
 
+  def trust_name company
+    if company.present?
+      company.name
+    else
+      ""
+    end
+  end
+
+  def previous_trust_names company
+    if company.present? && company._versions.size > 1
+      lines = company._version_change_display(:name, :start_date, :name_change_date)
+      '<p class="previous-names">'+
+      'previous trust ' + 'name'.pluralize(lines.size) + ': <br />' +
+      lines.join('<br />') +
+      '</p>'
+    end
+  end
+
 end

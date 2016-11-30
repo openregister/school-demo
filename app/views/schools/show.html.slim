@@ -41,6 +41,20 @@ h1.heading-xlarge.school
           - else
             | Not known
 
+      - if @school.try(:_organisation).present?
+        - case org = @school._organisation
+          - when OpenRegister::AcademySchoolEng
+            - if org.school_trust_join_date.present?
+              dt Academy trust joined date
+              dd= org.school_trust_join_date
+            - if org.academy_trust.present? && (trust_name = trust_name(org._academy_trust)).present?
+              dt Academy trust company no.
+              dd= org.academy_trust.sub('company:','')
+              dt Acacdemy trust
+              dd.previous-names
+                = trust_name
+                = previous_trust_names(org._academy_trust).to_s.html_safe
+
   .column-one-third
     == render partial: 'shared/map', locals: { lat: @lat, lon: @lon }
 

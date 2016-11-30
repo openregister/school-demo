@@ -25,7 +25,8 @@ module OpenRegisterHelper
 
   def self.is_register_link? field, item_register
     (field.register.present? &&  item_register != field.register) ||
-    (field.field == "address" && item_register != "address")
+    (field.field == "address" && item_register != "address") ||
+    (field.field == "academy-trust")
   end
 
   def self.is_record_link? field, item
@@ -46,13 +47,8 @@ module OpenRegisterHelper
       }.
       map do |field|
         value = item.send("_#{field.field.underscore}")
-        puts ''
-        puts '===='
-        puts field.field
-        puts item.send(field.field.underscore)
-        puts value.class.name
-        puts '---'
-        puts ''
+        puts "#{field.field}:#{item.send(field.field.underscore)} - #{value.class.name}"
+        puts '==='
         value
     end
   end
