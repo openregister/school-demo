@@ -27,7 +27,10 @@ h1.heading-xlarge.school
       dd= @school._school_gender.try(:name)
 
       dt Religious character
-      dd= religious_characters(@school)
+      dd= religious_characters(@school, :religious_characters)
+
+      dt Religious ethos
+      dd= religious_characters(@school, :religious_ethos)
 
       dt Unique reference number
       dd= @school.school_eng

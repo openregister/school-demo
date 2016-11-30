@@ -23,9 +23,9 @@ module ApplicationHelper
     [school.minimum_age, school.maximum_age].join(' to ')
   end
 
-  def religious_characters school
-    if school.religious_characters.present?
-      school._religious_characters.map(&:name).join(", ")
+  def religious_characters school, religion_field
+    if school.send(religion_field).present?
+      school.send(:"_#{religion_field}").map(&:name).join(", ")
     else
       'Does not apply'
     end
