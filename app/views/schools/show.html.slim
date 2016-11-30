@@ -11,9 +11,6 @@ h1.heading-xlarge.school
       dt Local authority
       dd= school_authority(@school)
 
-      dt Headteacher
-      dd= headteacher(@school)
-
       dt Age range
       dd= age_range(@school)
 
@@ -34,6 +31,9 @@ h1.heading-xlarge.school
 
       dt Unique reference number
       dd= @school.school_eng
+
+      dt Headteacher
+      dd= headteacher(@school)
 
       dt Open date
       dd= date(@school.start_date)
