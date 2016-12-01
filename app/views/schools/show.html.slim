@@ -52,8 +52,9 @@ h1.heading-xlarge.school
             | Not known
 
       - if @school.try(:_organisation).present?
-        - case org = @school._organisation
-          - when OpenRegister::AcademySchoolEng
+        - org = @school._organisation
+        - case org.class.name
+          - when 'OpenRegister::AcademySchoolEng'
             - if org.school_trust_join_date.present?
               dt Academy trust joined date
               dd= date(org.school_trust_join_date)
