@@ -42,6 +42,8 @@ module ApplicationHelper
 
   def school_type school
     case school._organisation.class.name
+    when 'NilClass'
+      ""
     when 'OpenRegister::SchoolType'
       school._organisation.name
     else
