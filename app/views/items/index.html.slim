@@ -11,7 +11,7 @@ h1.heading-xlarge Find schools
       ul
         - @items.select{|x| x.register == 'place' }.each do |place|
           li= link_to place.display_name, point_url(id: place.coordinates.join(','))
-        - @items.select{|x| x.register == 'school' && x.end_date.blank? }.each do |school|
+        - @items.select{|x| x.register == 'school-eng' && x.end_date.blank? }.each do |school|
           li= link_to school.display_name, school_url(id: school.record)
 
 .grid-row
