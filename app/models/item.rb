@@ -49,7 +49,7 @@ class Item
     def matches_for query, limit
       pattern = search_pattern(query)
       matches = matching(pattern, limit) +
-        matching(/^#{pattern}/i, limit)
+        matching(/^(the )?#{pattern}/i, limit)
         # matching(/^(.+\s)+#{pattern}/i)
       matches.uniq
     end
