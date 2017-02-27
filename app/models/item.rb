@@ -4,6 +4,7 @@ class Item
   include Mongoid::Timestamps
 
   field :r, as: :register, type: String
+  field :h, as: :phase, type: String
   field :k, as: :record, type: String
   field :n, as: :name, type: String
   field :p, as: :place, type: String
@@ -24,7 +25,7 @@ class Item
   scope :at, -> (point) { where(coordinates: lon_lat(point)) }
   scope :not_street, -> { where(:register.ne => 'street') }
 
-  scope :schools, -> { where(register: 'school') }
+  scope :schools, -> { where(register: 'school-eng') }
   scope :places, -> { where(register: 'place') }
 
   scope :matching, -> (pattern, limit) { where(name: pattern).not_street.not_ended.with_coordinates.limit(limit) }
@@ -48,7 +49,7 @@ class Item
     def matches_for query, limit
       pattern = search_pattern(query)
       matches = matching(pattern, limit) +
-        matching(/^#{pattern}/i, limit)
+        matching(/^(the )?#{pattern}/i, limit)
         # matching(/^(.+\s)+#{pattern}/i)
       matches.uniq
     end

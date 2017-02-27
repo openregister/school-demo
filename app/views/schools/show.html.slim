@@ -11,9 +11,6 @@ h1.heading-xlarge.school
       dt Local authority
       dd= school_authority(@school)
 
-      dt Headteacher
-      dd= headteacher(@school)
-
       dt Age range
       dd= age_range(@school)
 
@@ -21,24 +18,53 @@ h1.heading-xlarge.school
       dd= school_phase(@school)
 
       dt School type
-      dd= @school._school_type.try(:name)
+      dd= school_type(@school)
 
       dt Gender of entry
       dd= @school._school_gender.try(:name)
 
-      dt Denomination
-      dd= denominations(@school)
+      dt Religious character
+      dd= religious_characters(@school, :religious_characters)
 
-      dt Unique reference
-      dd= @school.school
+      dt Religious ethos
+      dd= religious_characters(@school, :religious_ethos)
 
-      dt Website
-      dd
-        - if @school.website.present?
-          a href="#{@school.website}" rel="external"
-            = @school.website
-        - else
-          | Not known
+      dt Unique reference number
+      dd= @school.school_eng
+
+      dt Headteacher
+      dd= headteacher(@school)
+
+      dt Open date
+      dd= date(@school.start_date)
+
+      - if @school.end_date.present?
+        dt Close date
+        dd= date(@school.end_date)
+
+      - if @school.try(:website).present?
+        dt Website
+        dd
+          - if @school.try(:website).present?
+            a href="#{@school.website}" rel="external"
+              = @school.website
+          - else
+            | Not known
+
+      - if @school.try(:_organisation).present?
+        - org = @school._organisation
+        - case org.class.name
+          - when 'OpenRegister::AcademySchoolEng'
+            - if org.school_trust_join_date.present?
+              dt Academy trust joined date
+              dd= date(org.school_trust_join_date)
+            - if org.academy_trust.present? && (trust_name = trust_name(org._academy_trust)).present?
+              dt Academy trust company no.
+              dd= org.academy_trust.sub('company:','')
+              dt Acacdemy trust
+              dd.previous-names
+                = trust_name
+                = previous_trust_names(org._academy_trust).to_s.html_safe
 
   .column-one-third
     == render partial: 'shared/map', locals: { lat: @lat, lon: @lon }

@@ -19,7 +19,7 @@ class ItemsController < ApplicationController
         when 'place'
           flash[:query] = @query
           redirect_to point_url(id: item.coordinates.join(','))
-        when 'school'
+        when 'school-eng'
           redirect_to school_url(id: item.record)
         end
       else

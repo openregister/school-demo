@@ -14,8 +14,8 @@ h1.heading-xlarge Index of register sourced data
         - (@schools + @places).sort_by{|x| x.coordinates.to_s }.reverse.each do |item|
           tr
             td= item.name
-            td= item.coordinates.try(:join, ',')
-            td= item.register
+            td= item.coordinates.try(:join, ',<br/>').to_s.html_safe
+            td style='width: 15%;'= item.register
             td= link_to item.record, record_url(item)
             td= item.place
 .grid-row

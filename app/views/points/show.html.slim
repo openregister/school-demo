@@ -9,7 +9,7 @@ h1.heading-xlarge= @heading
     - @schools.group_by(&:place).each do |place, list|
       h3.heading-medium= place
       ul
-        - list.each do |school|
+        - list.sort_by(&:name).each do |school|
           li
             = link_to school.name, school_url(id: school.record), class: 'school', data: {lat: school.coordinates.try(:last), lon: school.coordinates.try(:first), place: school.place}
 

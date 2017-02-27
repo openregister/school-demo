@@ -36,7 +36,7 @@ class ModifySchoolHtml
     if ref_dt = doc.search('dt').detect {|x| x.to_s[/Unique reference/]}
       code = ref_dt.next_element.text
       puts code
-      OpenRegister.record 'school', code, ENV['PHASE'].to_sym
+      OpenRegister.record 'school-eng', code, ENV['PHASE'].to_sym
     end
   end
 

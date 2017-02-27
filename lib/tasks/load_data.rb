@@ -9,6 +9,7 @@ end
 
 KEYS = {
   register: :r,
+  phase: :h,
   record: :k,
   name: :n,
   place: :p,
@@ -24,7 +25,7 @@ end
 
 def values item, register
   hash = {
-    register: register,
+    register: register.to_s.gsub('_','-'),
     record: item.send(register)
   }
   [:name, :start_date, :end_date, :entry_number].each do |field|
@@ -42,7 +43,7 @@ def street_for address, streets
 end
 
 def place_for street, places, local_authorities
-  (places[street.try(:place)] || local_authorities[street.try(:local_authority)]).try(:first)
+  (places[street.try(:place)] || local_authorities[street.try(:street_custodian)]).try(:first)
 end
 
 def point_for item, addresses
@@ -78,11 +79,23 @@ def osplaces
   items = Morph.from_tsv tsv, 'OSPlace'
 end
 
+def phase_for register
+  name = register.to_s.gsub('_','-')
+  if Rails.configuration.alpha_registers.include?(name)
+    :alpha
+  elsif Rails.configuration.discovery_registers.include?(name)
+    :discovery
+  else
+    raise "unknown phase for: #{register}"
+  end  
+end
+
 def create_item_hash item, register, place, addresses
   hash = values(item, register)
   point = point_for(item, addresses)
   hash[:point] = point if point
   hash[:place] = place if place
+  hash[:phase] = phase_for(register)
   convert_keys hash
 end
 
@@ -95,12 +108,12 @@ def county_for place, osplaces
   end
 end
 
-schools = items 'school' ; nil
+schools = items 'school-eng' ; nil
 addresses = items('address').group_by(&:address) ; nil
 streets = items('street').group_by(&:street) ; nil
 places = items('place').group_by(&:place) ; nil
 osplaces = osplaces().group_by(&:point) ; nil
-local_authorities = items('local-authority').group_by(&:local_authority) ; nil
+local_authorities = items('local-authority-eng').group_by(&:local_authority_eng) ; nil
 
 puts 'delete items collection'
 Item.delete_all
@@ -110,19 +123,19 @@ puts `rake db:mongoid:remove_indexes`
 puts 'persist school names'
 list = schools.map do |school|
   place = place_for_school(school, addresses, streets, places, local_authorities).try(:name)
-  create_item_hash school, :school, place, addresses
+  create_item_hash school, :school_eng, place, addresses
 end ; nil
-
 result = Item.collection.insert_many(list, ordered: false) ; nil
 
+=begin
 puts 'persist street names'
 list = streets.values.map do |street|
   street = street.first
   place = place_for(street, places, local_authorities).try(:name)
   create_item_hash street, :street, place, addresses
 end ; nil
-
 result = Item.collection.insert_many(list, ordered: false) ; nil
+=end
 
 puts 'persist place names'
 list = places.values.map do |place|
@@ -130,7 +143,6 @@ list = places.values.map do |place|
   county = county_for(place, osplaces)
   create_item_hash place, :place, county, nil
 end ; nil
-
 result = Item.collection.insert_many(list, ordered: false) ; nil
 
 puts 'create indexes'
