@@ -1,7 +1,6 @@
 GIT
-  remote: https://github.com/robmckinnon/openregister-ruby.git
-  revision: 9edb9ea4f565a27a4e5fb4d8e46a8b1bf2d74a8f
-  branch: record-versions
+  remote: https://github.com/openregister/openregister-ruby
+  revision: b3f28f9f1feb0ebf23870a52e04d62867ea980f2
   specs:
     openregister-ruby (0.0.1)
       morph (~> 0.5.0)
@@ -126,7 +125,7 @@ GEM
     mongoid (6.0.0.beta)
       activemodel (~> 5.0)
       mongo (~> 2.2)
-    morph (0.5.0)
+    morph (0.5.1)
       activesupport (>= 2.0.2)
     multi_json (1.12.1)
     nenv (0.3.0)
@@ -280,4 +279,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.5
+   1.14.6
